@@ -1,0 +1,31 @@
+match_work_dir: "data/job-matching-work"
+shard_size: 256
+
+queries:
+  instruction: "Given a job posting, retrieve the ESCO occupation that best represents its work and responsibilities."
+  label_template_version: "job-label-v1-title-it-terminal"
+  semantic_template_version: "job-semantic-v1-title-context-resp-req"
+  section_order: ["title", "category", "responsibilities", "requirements"]
+  label_max_tokens: 128
+  semantic_max_tokens: 4096
+
+retrieval:
+  candidate_limit: 100
+  rrf_k: 60
+  rrf_weights:
+    label_dense: 1.0
+    semantic_dense: 2.0
+    lexical_sparse: 1.0
+  top_k: 100
+  qdrant_batch_jobs: 8
+  query_timeout_seconds: 120
+
+rerank:
+  enabled: true
+  base_url: "http://localhost:8989"
+  model: "Qwen/Qwen3-Reranker-4B"
+  instruction: "Given a job posting, retrieve the ESCO occupation that best represents its work and responsibilities."
+  top_n: 100
+  timeout_seconds: 120
+  max_retries: 4
+  max_workers: 4

@@ -1,0 +1,39 @@
+esco_version: "1.2.1"
+source_language: "en"
+work_dir: "data/work"
+
+embedding:
+  backend: "tei"
+  model_id: "microsoft/harrier-oss-v1-0.6b"
+  model_revision: "f9b9dc8d367d443f2479d27aa5d8d2850c0774ee"
+  dimension: 1024
+  max_tokens: 512
+  batch_size: 32
+  shard_size: 256
+  device: "auto"
+  tei:
+    url: "http://localhost:8787"
+    api_key_env: "TEI_API_KEY"
+    timeout_seconds: 120
+    max_retries: 4
+    retry_backoff_seconds: 1
+    concurrent_requests: 16
+    verify_model_identity: true
+    require_model_sha: false
+
+sparse:
+  model_id: "Qdrant/bm25"
+  language: "english"
+  k: 1.2
+  b: 0.75
+  avg_len: 256.0
+  token_max_length: 40
+  disable_stemmer: false
+
+qdrant:
+  url: "http://localhost:6333"
+  api_key_env: "QDRANT_API_KEY"
+  collection_prefix: "esco_occupation_concepts"
+  alias: "esco_occupation_concepts_current"
+  upload_batch_size: 32
+  timeout_seconds: 180
